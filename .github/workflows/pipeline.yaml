@@ -36,18 +36,24 @@ jobs:
           rm -rf /tmp/export
           mkdir -p /tmp/export
           cp -R . /tmp/export
-          # rm -rf /tmp/export/.git  
+
+          # Remove old Git history if it exists
+          rm -rf /tmp/export/.git
 
       - name: Push to external repo
         run: |
           cd /tmp/export
           git init -b main
-          # git remote add origin https://${TOKEN_GITHUB}github.com/Revival-fire/tryingout-project6.git
+      
+          # Add remote using token
           git remote add origin https://${{ secrets.TOKEN_GITHUB }}@github.com/Revival-fire/tryingout-project6.git
-          git stash
+      
+          # Add all files and commit
           git add .
           git commit -m "Synced from source repo"
-          git branch -M main
+      
+          # Push to main branch forcibly
           git push origin main --force
         env:
-          TOKEN_GITHB: ${{ secrets.TOKEN_GITHUB }}
+          TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+      
