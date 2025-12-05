@@ -40,8 +40,9 @@ jobs:
       - name: Push to external repo
         run: |
           cd /tmp/export
-          git init
-          git remote add origin https://${TOKEN_GITHUB}github.com/Revival-fire/tryingout-project6.git
+          git init -b main
+          # git remote add origin https://${TOKEN_GITHUB}github.com/Revival-fire/tryingout-project6.git
+          git remote add origin https://${{ secrets.TOKEN_GITHUB }}@github.com/Revival-fire/tryingout-project6.git
           git add .
           git commit -m "Synced from source repo"
           git branch -M main
