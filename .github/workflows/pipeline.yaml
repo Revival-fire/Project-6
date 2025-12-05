@@ -36,7 +36,7 @@ jobs:
           rm -rf /tmp/export
           mkdir -p /tmp/export
           cp -R . /tmp/export
-          rm -rf /tmp/export/.git  
+          # rm -rf /tmp/export/.git  
 
       - name: Push to external repo
         run: |
