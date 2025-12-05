@@ -36,7 +36,9 @@ jobs:
           rm -rf /tmp/export
           mkdir -p /tmp/export
           cp -R . /tmp/export
-          # rm -rf /tmp/export/.git  
+
+          # Remove old Git history if it exists
+          rm -rf /tmp/export/.git
 
       - name: Push to external repo
         run: |
@@ -50,3 +52,4 @@ jobs:
           git push origin main --force-with-lease --force
         env:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+
