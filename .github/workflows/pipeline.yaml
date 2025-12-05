@@ -30,6 +30,7 @@ jobs:
           git add -A
           git commit -m "Remove folder before pushing to external repo" || echo "Nothing to commit"
 
+
       - name: Prepare clean copy for external repo
         run: |
           rm -rf /tmp/export
