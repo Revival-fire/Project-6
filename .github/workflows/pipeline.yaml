@@ -1,0 +1,49 @@
+name: Sync Staging to Prod Push Cleaned Repo to External Repo
+
+on:
+  push:
+    branches:
+      - testing          
+  pull_request:
+    branches:
+      - testing        
+    types: [opened, synchronize, closed]
+
+
+jobs:
+  push_cleaned:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Delete unwanted folder
+        run: |
+          rm -rf project-6.md
+          git add -A
+          git commit -m "Remove folder before pushing to external repo" || echo "Nothing to commit"
+
+      - name: Prepare clean copy for external repo
+        run: |
+          rm -rf /tmp/export
+          mkdir -p /tmp/export
+          cp -R . /tmp/export
+
+      - name: Push to external repo
+        run: |
+          cd /tmp/export
+          git init
+          git remote add origin https://${TOKEN_GITHUB}github.com/Revival-fire/tryingout-project6.git
+          git add .
+          git commit -m "Synced from source repo"
+          git branch -M main
+          git push origin main --force
+        env:
+          TOKEN_GITHB: ${{ secrets.TOKEN_GITHUB }}
