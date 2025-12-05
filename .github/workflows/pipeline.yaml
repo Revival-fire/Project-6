@@ -44,16 +44,12 @@ jobs:
         run: |
           cd /tmp/export
           git init -b main
-      
-          # Add remote using token
           git remote add origin https://${{ secrets.TOKEN_GITHUB }}@github.com/Revival-fire/tryingout-project6.git
-      
-          # Add all files and commit
           git add .
           git commit -m "Synced from source repo"
-      
-          # Push to main branch forcibly
-          git push origin main --force
+          
+          # Force push with lease bypass
+          git push origin main --force-with-lease --force
         env:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
-      
+
